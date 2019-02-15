@@ -13,7 +13,10 @@ class Category extends React.Component {
               {this.props.dishes.map(dish => {
                 return (
                   <li key={dish.id} className="dish-article-list">
-                    <DishArticle dish={dish} />
+                    <DishArticle
+                      dish={dish}
+                      handleclickdish={this.props.handleclickdish}
+                    />
                   </li>
                 );
               })}
