@@ -10,7 +10,6 @@ class MenuNav extends React.Component {
         <ul>
           {Object.keys(menu).map((category, index) => {
             if (menu[category].length > 0) {
-              console.log(category);
               return (
                 <li key={index}>
                   <AnchorLink offset="70" href={"#" + category}>
