@@ -1,0 +1,5 @@
+.photo-restaurant {
+  object-fit: cover;
+  width: calc(100% - 65%);
+  height: 155px;
+}

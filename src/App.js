@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import Header from "./components/Header";
-import Restaurant from "./components/Restaurant";
-import MenuNav from "./components/MenuNav";
-import Menu from "./components/Menu";
+import Header from "./components/Header/Header";
+import Restaurant from "./components/Restaurant/Restaurant";
+
+import Menu from "./components/Menu/Menu";
 import "./App.css";
 
 import axios from "axios";
-import Logo from "./components/Logo";
 
 class App extends Component {
   state = {
@@ -15,67 +14,38 @@ class App extends Component {
     basket: [],
     subtotal: 0,
 
-    tips: 0,
-    deliveryFee: 2.5,
-    serviceFee: 0.2
+    paymentOptions: { tips: 0, deliveryFee: 2.5, serviceFee: 0.2 }
   };
 
-  componentDidMount = async () => {
-    try {
-      const fullInfoRestaurant = await axios
-        .get("https://deliveroo-api.now.sh/menu")
-        .then(response => response.data);
-
-      const restaurant = fullInfoRestaurant.restaurant;
-      const menu = fullInfoRestaurant.menu;
-
-      this.setState({ restaurant: restaurant, menu: menu });
-    } catch (error) {
-      alert("there is an error when trying to get restaurant information");
-    }
+  componentDidMount = () => {
+    axios
+      .get("https://deliveroo-api.now.sh/menu")
+      .then(response => response.data, error => console.log(error))
+      .then(data =>
+        this.setState({ restaurant: data.restaurant, menu: data.menu })
+      );
   };
 
-  renderMainPage = (
-    restaurant,
-    menu,
-    handleclickdish,
-    basket,
-    handleAddAndRemoveClick,
-    subtotal,
-    deliveryFee,
-    serviceFee,
-    handleTipsClick,
-    tips
-  ) => {
-    if (restaurant.name) {
+  renderMainPage = () => {
+    if (this.state.restaurant.name) {
       return (
-        <div className="App">
+        <>
           <Header />
           <div className="restaurant-container">
-            <Restaurant restaurant={{ ...restaurant }} />
+            <Restaurant restaurant={{ ...this.state.restaurant }} />
           </div>
           <div className="menu-container">
             <Menu
-              menu={{ ...menu }}
-              basket={[...basket]}
-              handleclickdish={handleclickdish}
-              handleAddAndRemoveClick={handleAddAndRemoveClick}
-              subtotal={subtotal}
-              deliveryFee={deliveryFee}
-              serviceFee={serviceFee}
-              handleTipsClick={handleTipsClick}
-              tips={tips}
+              {...this.state}
+              handleclickdish={this.handleClickDish}
+              handleAddAndRemoveClick={this.handleAddAndRemoveClick}
+              handleTipsClick={this.handleTipsClick}
             />
           </div>
-        </div>
+        </>
       );
     } else {
-      return (
-        <div className="App">
-          <Header />
-          <div className="loading">Chargement en cours...</div>
-        </div>
-      );
+      return <div className="loading">Chargement en cours...</div>;
     }
   };
 
@@ -103,9 +73,10 @@ class App extends Component {
     ) {
       newBasket.map(elDish => {
         if (elDish.name === dish.title) {
-          elDish.quantity++;
           subtotal += Number(dish.price);
+          elDish.quantity++;
         }
+        return elDish;
       });
       this.setState({
         basket: newBasket,
@@ -128,26 +99,16 @@ class App extends Component {
   };
 
   handleTipsClick = quantity => {
-    let newTips = this.state.tips;
-    if (!(newTips <= 0 && quantity === -1)) {
-      newTips += quantity;
-      this.setState({ tips: newTips });
+    const newPaymentOptions = this.state.paymentOptions;
+
+    if (!(newPaymentOptions.tips <= 0 && quantity === -1)) {
+      newPaymentOptions.tips += quantity;
+      this.setState({ paymentOptions: newPaymentOptions });
     }
   };
 
   render() {
-    return this.renderMainPage(
-      this.state.restaurant,
-      this.state.menu,
-      this.handleClickDish,
-      this.state.basket,
-      this.handleAddAndRemoveClick,
-      this.state.subtotal,
-      this.state.deliveryFee,
-      this.state.serviceFee,
-      this.handleTipsClick,
-      this.state.tips
-    );
+    return <div className="App">{this.renderMainPage()}</div>;
   }
 }
 

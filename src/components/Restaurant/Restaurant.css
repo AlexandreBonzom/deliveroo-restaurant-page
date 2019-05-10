@@ -1,0 +1,22 @@
+.restaurant-container {
+  border-bottom: solid 1px #e7ebeb;
+}
+.restaurant {
+  height: 220px;
+  display: flex;
+  flex-direction: row;
+  width: 1024px;
+  margin: auto;
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
+.description-restaurant {
+  width: 65%;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
+
+.contact-main-info {
+  margin-bottom: 15px;
+}

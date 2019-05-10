@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import DishArticle from "./DishArticle";
+import React from "react";
+import DishArticle from "../DishArticle/DishArticle";
 
 class Category extends React.Component {
   render() {
@@ -16,6 +16,7 @@ class Category extends React.Component {
                     <DishArticle
                       dish={dish}
                       handleclickdish={this.props.handleclickdish}
+                      basket={this.props.basket}
                     />
                   </li>
                 );
@@ -24,9 +25,8 @@ class Category extends React.Component {
           </div>
         </div>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 }
 

@@ -1,0 +1,14 @@
+.categories-container {
+  display: flex;
+  width: 1024px;
+  margin: auto;
+}
+.categories-list {
+  padding-top: 35px;
+  width: 675px;
+}
+
+.category {
+  margin: auto;
+  display: flex;
+}
