@@ -42,7 +42,7 @@ npm start
 
 
   
-![live demo](https://media.giphy.com/media/cPNwPWdMBhMlSlltb7/giphy.gif)
+![live demo](https://media.giphy.com/media/LT0hWaiN3Fug2o22Qd/giphy.gif)
 
 Example with filling and emptying the shopping cart.
 
